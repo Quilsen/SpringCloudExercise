@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: ExternalService
+    name: external-service
 eureka:
   client:
     service-url:
