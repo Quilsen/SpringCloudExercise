@@ -3,7 +3,16 @@ server:
 
 spring:
   application:
-    name: Gateway
+    name: gateway
+  cloud:
+    gateway:
+      routes:
+        - id: external-service-route
+          uri: lb://external-service
+          predicates:
+            - Path=/external-service/**
+          filters:
+            - StripPrefix=1
 eureka:
   client:
     service-url:
