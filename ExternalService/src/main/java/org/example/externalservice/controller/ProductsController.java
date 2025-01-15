@@ -2,6 +2,7 @@ package org.example.externalservice.controller;
 
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.AllArgsConstructor;
@@ -59,14 +60,36 @@ public class ProductsController {
         return productService.getAllProducts();
     }
 
+    @Operation(
+            summary = "Filter products",
+            description = "Retrieve a paginated list of products based on filters such as name, description, and price. Supports pagination and sorting.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Successful retrieval of products"),
+                    @ApiResponse(responseCode = "400", description = "Invalid input parameters"),
+                    @ApiResponse(responseCode = "500", description = "Internal server error")
+            }
+    )
     @GetMapping("/filter")
     @ResponseStatus(HttpStatus.OK)
-    public Page<ProductDto> filterProducts(@RequestParam(required = false) String name,
-                                           @RequestParam(required = false) String description,
-                                           @RequestParam(required = false) BigDecimal price,
-                                           @RequestParam(required = false) Integer page,
-                                           @RequestParam(required = false) Integer size,
-                                           @RequestParam(required = false) String sort) {
+    public Page<ProductDto> filterProducts(
+            @Parameter(description = "Name of the product to filter", example = "Laptop")
+            @RequestParam(required = false) String name,
+
+            @Parameter(description = "Description of the product to filter", example = "Gaming laptop")
+            @RequestParam(required = false) String description,
+
+            @Parameter(description = "Price of the product to filter", example = "1000.00")
+            @RequestParam(required = false) BigDecimal price,
+
+            @Parameter(description = "Page number for pagination", example = "0")
+            @RequestParam(required = false) Integer page,
+
+            @Parameter(description = "Page size for pagination", example = "10")
+            @RequestParam(required = false) Integer size,
+
+            @Parameter(description = "Sorting criteria in the format 'field,order' (e.g., 'name,asc')", example = "name,asc")
+            @RequestParam(required = false) String sort
+    ) {
         return productService.filterProducts(page, size, sort, name, description, price);
     }
 
