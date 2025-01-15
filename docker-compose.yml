@@ -1,0 +1,57 @@
+version: '3.8'
+services:
+  eureka-server:
+    build:
+      context: ./EurekaServer
+      dockerfile: Dockerfile
+    ports:
+      - "8761:8761"
+    networks:
+      - spring-cloud
+    container_name: eureka-server
+
+  api-gateway:
+    build:
+      context: ./Gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    networks:
+      - spring-cloud
+    depends_on:
+      - eureka-server
+    container_name: api-gateway
+
+  external-service:
+    build:
+      context: ./ExternalService
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    networks:
+      - spring-cloud
+    depends_on:
+      - eureka-server
+    container_name: external-service
+
+  internal-service:
+    build:
+      context: ./InternalService
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    networks:
+      - spring-cloud
+    depends_on:
+      - eureka-server
+    container_name: internal-service
+
+networks:
+  spring-cloud:
+    driver: bridge
