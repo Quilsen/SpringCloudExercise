@@ -7,8 +7,14 @@ import org.example.internalservice.dto.ProductDto;
 import org.example.internalservice.dto.ProductUpdateDto;
 import org.example.internalservice.exception.ProductNotFoundException;
 import org.example.internalservice.model.Product;
+import org.example.internalservice.repository.ProductRepository;
+import org.example.internalservice.repository.ProductSpecification;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @AllArgsConstructor
@@ -52,7 +58,15 @@ public class ProductService {
         return objectMapper.convertValue(save, ProductDto.class);
     }
 
-    public void deleteProduct(Long id) {
+    public Page<ProductDto> filterProducts(Pageable pageable, String name, String description, BigDecimal price) {
+        Specification<Product> spec = ProductSpecification.buidlSpec(name, description, price);
+
+        return productRepository.findAll(spec, pageable)
+                .map(product -> objectMapper.convertValue(product, ProductDto.class));
+    }
+
+
+        public void deleteProduct(Long id) {
         if (!productRepository.existsById(id)) {
             throw new ProductNotFoundException(PRODUCT_NOT_FOUND_MSG + id);
         }
