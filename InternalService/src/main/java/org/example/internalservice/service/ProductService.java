@@ -41,8 +41,14 @@ public class ProductService {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND_MSG + id));
 
-        Product updatedProduct = objectMapper.convertValue(productUpdateDto, product.getClass());
-        Product save = productRepository.save(updatedProduct);
+        if (productUpdateDto.description() != null) {
+            product.setDescription(productUpdateDto.description());
+        }
+        if (productUpdateDto.price() != null) {
+            product.setPrice(productUpdateDto.price());
+        }
+
+        Product save = productRepository.save(product);
         return objectMapper.convertValue(save, ProductDto.class);
     }
 
