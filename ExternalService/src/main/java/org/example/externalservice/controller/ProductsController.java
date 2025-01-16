@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import org.example.externalservice.dto.ProductCreateDto;
 import org.example.externalservice.dto.ProductDto;
@@ -13,6 +14,7 @@ import org.example.externalservice.dto.ProductUpdateDto;
 import org.example.externalservice.service.ProductService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,6 +37,7 @@ public class ProductsController {
 
     @Operation(summary = "Create a new product", description = "Creates a new product based on the provided details.")
     @ApiResponse(responseCode = "201", description = "Product successfully created")
+    @Secured("user")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ProductDto createProduct(@RequestBody ProductCreateDto productCreateDto) {
@@ -46,6 +49,7 @@ public class ProductsController {
             @ApiResponse(responseCode = "200", description = "Product found"),
             @ApiResponse(responseCode = "404", description = "Product not found")
     })
+    @Secured("user")
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ProductDto getProduct(@PathVariable Long id) {
@@ -54,6 +58,7 @@ public class ProductsController {
 
     @Operation(summary = "Get all products", description = "Retrieves a list of all available products.")
     @ApiResponse(responseCode = "200", description = "List of products retrieved successfully")
+    @Secured("user")
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<ProductDto> getAllProducts() {
@@ -69,6 +74,7 @@ public class ProductsController {
                     @ApiResponse(responseCode = "500", description = "Internal server error")
             }
     )
+    @Secured("user")
     @GetMapping("/filter")
     @ResponseStatus(HttpStatus.OK)
     public Page<ProductDto> filterProducts(
@@ -98,6 +104,7 @@ public class ProductsController {
             @ApiResponse(responseCode = "200", description = "Product updated successfully"),
             @ApiResponse(responseCode = "404", description = "Product not found")
     })
+    @Secured("user")
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ProductDto updateProduct(@PathVariable Long id, @RequestBody ProductUpdateDto productUpdateDto) {
@@ -109,6 +116,7 @@ public class ProductsController {
             @ApiResponse(responseCode = "204", description = "Product deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Product not found")
     })
+    @Secured("user")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteProduct(@PathVariable Long id) {
