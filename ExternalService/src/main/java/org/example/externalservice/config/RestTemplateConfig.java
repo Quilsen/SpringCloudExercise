@@ -1,4 +1,4 @@
-package org.example.externalservice;
+package org.example.externalservice.config;
 
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
