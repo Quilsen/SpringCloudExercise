@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AccountController {
     private AccountService accountService;
 
-    @PostMapping("/register/parking-user")
+    @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public void registerParkingUser(@RequestBody UserDto userDto) {
         accountService.registerUser(userDto);
