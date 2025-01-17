@@ -95,7 +95,7 @@ docker-compose up -d
 ## API Endpoints
 
 ### External Service
-- POST /account/register/parking-user: Register a new user.
+- POST /account/register: Register a new user.
 - POST /api/products: Create a new product.
 - GET /api/products/{id}: Retrieve a product by ID.
 - GET /api/products: Retrieve all products.
