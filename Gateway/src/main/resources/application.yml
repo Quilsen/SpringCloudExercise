@@ -13,6 +13,10 @@ spring:
             - Path=/external-service/**
           filters:
             - StripPrefix=1
+        - id: swagger-route
+          uri: lb://external-service
+          predicates:
+            - Path=/swagger-ui.html, /swagger-ui/**, /v3/api-docs/**
 eureka:
   client:
     service-url:
