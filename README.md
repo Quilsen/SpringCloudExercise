@@ -94,6 +94,23 @@ docker-compose up -d
 
 ## API Endpoints
 
+### Obtain Access Token from Keycloak
+This project uses Keycloak for authentication and authorization. To interact with protected endpoints, you need to obtain an access token using the Resource Owner Password Credentials grant type
+
+Endpoint
+````bash
+POST http://localhost:8084/realms/master/protocol/openid-connect/token
+````
+Headers
+- Content-Type: `#application/x-www-form-urlencoded`
+
+Body Parameters
+
+- grant_type: Set to `#password`, specifies the OAuth2 grant type being used.
+- client_id: The ID of the client configured in Keycloak (e.g., `#user_client`).
+- username: The `#username` of the Keycloak user who is logging in.
+- password: The `#password` of the Keycloak user who is logging in.
+
 ### External Service
 - POST /account/register: Register a new user.
 - POST /api/products: Create a new product.
