@@ -27,8 +27,8 @@ public record UserRepresentation(
         );
     }
 
-    public record Credential(String type, String value, boolean temporary) {
-        public static Credential from( String value) {
+    public record Credential(String type, char[] value, boolean temporary) {
+        public static Credential from( char[] value) {
             return new Credential(
                     "password",
                     value,
