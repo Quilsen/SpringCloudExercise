@@ -1,0 +1,27 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: external-service
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER-URI:http://localhost:8084/realms/master}
+          jwk-set-uri: ${SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI:http://localhost:8084/realms/master/protocol/openid-connect/certs}
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka}
+
+keycloak:
+  auth-server-url: ${KEYCLOAK_AUTH_SERVER_URL:http://localhost:8084/realms/master/protocol/openid-connect/token}
+  admin-user-url: ${KEYCLOAK_ADMIN_USER_URL:http://localhost:8084/admin/realms/master/users}
+  realm: master
+  client-id: admin-cli
+  grant-type: password
+  admin:
+    username: admin
+    password: admin
+

@@ -1,0 +1,23 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      routes:
+        - id: external-service-route
+          uri: lb://external-service
+          predicates:
+            - Path=/external-service/**
+          filters:
+            - StripPrefix=1
+        - id: swagger-route
+          uri: lb://external-service
+          predicates:
+            - Path=/swagger-ui.html, /swagger-ui/**, /v3/api-docs/**
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka}

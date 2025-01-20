@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  keycloak:
+    image: keycloak/keycloak:25.0.4
+    container_name: keycloak2
+    restart: always
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      DB_VENDOR: h2
+    ports:
+      - "8084:8080"
+    command: start-dev
+    networks:
+      - spring-cloud
+
+networks:
+  spring-cloud:
+    driver: bridge
